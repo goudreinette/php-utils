@@ -1,0 +1,17 @@
+{
+  "name": "reinvdwoerd/utils",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Rein van der Woerd",
+      "email": "reinvanderwoerd@me.com"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Utils\\": "."
+    }
+  }
+}
