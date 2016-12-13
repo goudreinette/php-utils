@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Utils\\' => array($baseDir . '/'),
+    'Illuminate\\' => array($vendorDir . '/tightenco/collect/src/Illuminate'),
 );

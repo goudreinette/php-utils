@@ -6,10 +6,18 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit45c331a0631e580644f03b539793baa1
 {
+    public static $files = array (
+        '7ba3c774c30c8399e359b5ff7f3b943e' => __DIR__ . '/..' . '/tightenco/collect/src/Illuminate/Support/helpers.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'U' => 
         array (
             'Utils\\' => 6,
+        ),
+        'I' => 
+        array (
+            'Illuminate\\' => 11,
         ),
     );
 
@@ -17,6 +25,10 @@ class ComposerStaticInit45c331a0631e580644f03b539793baa1
         'Utils\\' => 
         array (
             0 => __DIR__ . '/../..' . '/',
+        ),
+        'Illuminate\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/tightenco/collect/src/Illuminate',
         ),
     );
 
