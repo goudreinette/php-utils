@@ -47,4 +47,9 @@ class WooUtils
             }
         }
     }
+
+    static function categoryLegacy($categoryId)
+    {
+        return array_merge(get_ancestors($categoryId, 'product_cat', 'taxonomy'), [$categoryId]);
+    }
 }
