@@ -9,7 +9,7 @@ class Utils
      * @param $key   string | int
      * @return array
      */
-    function array_pluck($array, $key)
+    static function array_pluck($array, $key)
     {
         return array_values(array_map(function ($item) use ($key) {
             if (is_array($item))
@@ -25,7 +25,7 @@ class Utils
      * @param $key   array of string | int
      * @return array
      */
-    function array_select($array, $keys)
+    static function array_select($array, $keys)
     {
         $keys = array_flip($keys);
         return array_map(function ($item) use ($keys) {
@@ -41,7 +41,7 @@ class Utils
      * @param $array     array
      * @return array
      */
-    function array_take_if($condition, $n, $array)
+    static function array_take_if($condition, $n, $array)
     {
         if ($condition)
             return array_slice($array, 0, $n);
@@ -49,8 +49,31 @@ class Utils
             return $array;
     }
 
-    function array_apply_to($function, $keys, $array)
+    static function array_apply_to($function, $keys, $array)
     {
 
+    }
+
+    static function array_flatten($array)
+    {
+        $result = [];
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $result = $result + self::array_flatten($value, $key);
+            } else {
+                $result[$key] = $value;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param $function callable
+     * @param $array    array
+     * @return mixed
+     */
+    static function array_flatmap($function, $array)
+    {
+        return self::array_flatten(array_map($function, $array));
     }
 }
