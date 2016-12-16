@@ -8,7 +8,7 @@ class Date
      * @param $nextMonths     Integer
      * @return \DatePeriod
      */
-    function createMonthRange($previousMonths, $nextMonths)
+    static function createMonthRange($previousMonths, $nextMonths)
     {
         $nextMonths    = $nextMonths + 1;
         $rangeStart    = new \DateTimeImmutable("first day of -$previousMonths months");
@@ -23,7 +23,7 @@ class Date
         return $result;
     }
 
-    function createMonth($month)
+    static function createMonth($month)
     {
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month->format('m'), $month->format('Y'));
         $firstMonday = $month->modify('first monday');
@@ -39,19 +39,13 @@ class Date
         return $result;
     }
 
-    function monthRangeToArray($monthRange)
+    static function formatDateTime($date = null)
     {
-        return $monthRange;
+        return date('Y-m-d H:i', strtotime($date) ?: time());
     }
 
-    function formatDate($date = null)
+    static function formatDate($time = null)
     {
-        return date('Y-m-d', strtotime($date) ?: time());
+        return date('Y-m-d', strtotime($time) ?: time());
     }
-
-    function formatTime($time = null)
-    {
-        return date('H:i', strtotime($time) ?: time());
-    }
-
 }

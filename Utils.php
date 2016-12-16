@@ -76,4 +76,9 @@ class Utils
     {
         return self::array_flatten(array_map($function, $array));
     }
+
+    static function toArray($item)
+    {
+        return json_decode(json_encode($item));
+    }
 }

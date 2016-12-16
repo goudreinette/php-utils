@@ -6,21 +6,26 @@ class WooUtils
      * @param array $args Additional query arguments
      * @return Array [String] of product categories
      */
-    static function getProductCategories($args = [])
+    static function getProductCategoryNames($args = [])
     {
         $categories = get_categories(array_merge(['taxonomy' => 'product_cat', 'hierarchical' => true], $args));
         return array_values(Utils::array_pluck($categories, 'cat_name'));
     }
 
+    static function getProductCategories($args = [])
+    {
+        return get_categories(array_merge(['taxonomy' => 'product_cat', 'hierarchical' => true], $args));
+    }
+
     /**
      * @param $date String
-     * @param $time String
      * @return String date formatted to WooCommerce preferences
      */
-    static function formatDateTimeWoocommerce($date, $time)
+    static function formatDateTimeWoocommerce($dateTime)
     {
-        $formatted = date_i18n(wc_date_format(), strtotime($date));
-        return "$formatted, $time uur";
+        $date = date_i18n(wc_date_format(), strtotime($dateTime));
+        $time = date('H:i', strtotime($dateTime));
+        return "$date, $time uur";
     }
 
     /**
@@ -36,15 +41,13 @@ class WooUtils
             return "sale";
     }
 
-    static function flattenMeta($ids, $metaKey)
+    static function flattenMeta($id, $metaKey)
     {
-        foreach ($ids as $id) {
-            $meta = get_post_meta($id, $metaKey, true);
+        $meta = get_post_meta($id, $metaKey, true);
 
-            foreach ($meta as $subKey => $subValue) {
-                $fullKey = "$metaKey-$subKey";
-                update_post_meta($id, $fullKey, $subValue);
-            }
+        foreach ($meta as $subKey => $subValue) {
+            $fullKey = "$metaKey-$subKey";
+            update_post_meta($id, $fullKey, $subValue);
         }
     }
 
