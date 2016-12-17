@@ -49,9 +49,9 @@ class Utils
             return $array;
     }
 
-    static function array_apply_to($function, $keys, $array)
+    static function array_exclude_value($array, $value)
     {
-
+        return array_values(array_diff($array, [$value]));
     }
 
     static function array_flatten($array)

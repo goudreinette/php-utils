@@ -3,19 +3,40 @@
 class WooUtils
 {
     /**
-     * @param array $args Additional query arguments
-     * @return Array [String] of product categories
+     * @param array $args
+     * @return \WP_Term[]
      */
-    static function getProductCategoryNames($args = [])
-    {
-        $categories = get_categories(array_merge(['taxonomy' => 'product_cat', 'hierarchical' => true], $args));
-        return array_values(Utils::array_pluck($categories, 'cat_name'));
-    }
-
     static function getProductCategories($args = [])
     {
-        return get_categories(array_merge(['taxonomy' => 'product_cat', 'hierarchical' => true], $args));
+        return get_categories(array_merge([
+            'taxonomy'     => 'product_cat',
+            'hierarchical' => true,
+            'hide_empty'   => false
+        ], $args));
     }
+
+    /**
+     * @param array $args
+     * @return \WP_Term[]
+     */
+    static function getUsedProductCategories($args = [])
+    {
+        return self::getProductCategories(['hide_empty' => true]);
+    }
+
+    /**
+     * @param $used bool
+     * @return string[] of product categories
+     */
+    static function getProductCategoryNames($all = false)
+    {
+        $categories = $all
+            ? self::getProductCategories()
+            : self::getUsedProductCategories();
+
+        return Utils::array_pluck($categories, 'cat_name');
+    }
+
 
     /**
      * @param $date String
