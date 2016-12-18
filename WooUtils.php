@@ -44,9 +44,10 @@ class WooUtils
      */
     static function formatDateTimeWoocommerce($dateTime)
     {
-        $date    = date_i18n(wc_date_format(), strtotime($dateTime));
-        $time    = date('H:i', strtotime($dateTime));
-        $postfix = __('uur', 'woo-events');
+        $timestamp = strtotime($dateTime);
+        $date      = date_i18n(get_option('date_format'), $timestamp);
+        $time      = date_i18n(get_option('time_format'), $timestamp);
+        $postfix   = __('hrs', 'woo-events');
         return "$date, $time $postfix";
     }
 
