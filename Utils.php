@@ -33,6 +33,13 @@ class Utils
         }, $array);
     }
 
+    static function array_exclude_key($array, $excluded)
+    {
+        return array_filter(function ($key) use ($excluded) {
+            return $key != $excluded;
+        }, $array, ARRAY_FILTER_USE_KEY);
+    }
+
     /**
      * If the condition is true, take the given number of items.
      * Else, return the entire array.

@@ -1,6 +1,9 @@
 <?php namespace Utils;
 
 
+/**
+ * Persist an object as wordpress option.
+ */
 trait OptionPersist
 {
     /**
@@ -9,10 +12,10 @@ trait OptionPersist
      */
     function __construct()
     {
-        $classVars = get_class_vars(self::class);
-        $options   = get_option(self::$key, $classVars);
+        $defaults = get_object_vars($this);
+        $options  = get_option(self::$key) ?: $defaults;
 
-        foreach ($classVars as $key => $undefined) {
+        foreach ($options as $key => $undefined) {
             $this->$key = $options[$key];
         }
     }
@@ -22,8 +25,9 @@ trait OptionPersist
      */
     function __destruct()
     {
-        $classVars = get_class_vars(self::class);
-        $options   = array_intersect_key((array)$this, $classVars);
+        $instancevars = get_object_vars($this);
+        $classvars    = get_class_vars(self::class);
+        $options      = array_intersect_key($instancevars, $classvars);
         update_option(self::$key, $options);
     }
 }

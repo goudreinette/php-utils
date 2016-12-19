@@ -1,6 +1,8 @@
 <?php namespace Utils;
 
-
+/**
+ * Persist an object as wordpress meta.
+ */
 trait MetaPersist
 {
     /**
