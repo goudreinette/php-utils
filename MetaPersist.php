@@ -9,9 +9,10 @@ trait MetaPersist
      * Get the object's post meta.
      * When the declared key isn't found, use the default.
      */
-    function __construct()
+    function __construct($id)
     {
-        $meta = get_post_meta($this->id, self::$key, true);
+        $this->id = $id;
+        $meta     = get_post_meta($this->id, self::$key, true) ?: $this->defaults();
         foreach ((array)$this as $key => $undefined) {
             $this->$key = $meta[$key] ?: $this->$key;
         }

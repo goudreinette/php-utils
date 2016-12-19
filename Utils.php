@@ -12,11 +12,22 @@ class Utils
     static function array_pluck($array, $key)
     {
         return array_values(array_map(function ($item) use ($key) {
-            if (is_array($item))
-                return $item[$key];
-            else
-                return $item->{$key};
+            return self::get($item, $key);
         }, $array));
+    }
+
+    static function get($item, $key)
+    {
+        if (is_array($item))
+            return $item[$key];
+        else
+            return $item->{$key};
+    }
+
+    static function array_find_by($array, $key, $value)
+    {
+        foreach ($array as $item)
+            if (self::get($item, $key) == $value) return $item;
     }
 
     /**

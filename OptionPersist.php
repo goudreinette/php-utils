@@ -12,8 +12,7 @@ trait OptionPersist
      */
     function __construct()
     {
-        $defaults = get_object_vars($this);
-        $options  = get_option(self::$key) ?: $defaults;
+        $options = get_option(self::$key) ?: [];
 
         foreach ($options as $key => $undefined) {
             $this->$key = $options[$key];
@@ -25,9 +24,6 @@ trait OptionPersist
      */
     function __destruct()
     {
-        $instancevars = get_object_vars($this);
-        $classvars    = get_class_vars(self::class);
-        $options      = array_intersect_key($instancevars, $classvars);
-        update_option(self::$key, $options);
+        update_option(self::$key, $this);
     }
 }
