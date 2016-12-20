@@ -99,4 +99,17 @@ class Utils
     {
         return json_decode(json_encode($item));
     }
+
+    static function removeDirectory($path)
+    {
+        if (is_dir($path)) {
+            $files = glob($path . '/*');
+            foreach ($files as $file) {
+                removeDirectory($file);
+            }
+            rmdir($path);
+        } else {
+            unlink($file);
+        }
+    }
 }
