@@ -7,6 +7,7 @@
       "email": "reinvanderwoerd@me.com"
     }
   ],
+  "require": {},
   "autoload": {
     "psr-4": {
       "Utils\\": "."
