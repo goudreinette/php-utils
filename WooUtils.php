@@ -42,13 +42,17 @@ class WooUtils
      * @param $date String
      * @return String date formatted to WooCommerce preferences
      */
-    static function formatDateTimeWoocommerce($dateTime)
+    static function formatDateTimeWoocommerce($dateTime, $showTime = true)
     {
         $timestamp = strtotime($dateTime);
         $date      = date_i18n(get_option('date_format'), $timestamp);
         $time      = date_i18n(get_option('time_format'), $timestamp);
         $postfix   = __('hrs', 'woo-events');
-        return "$date, $time $postfix";
+
+        if ($showTime)
+            return "$date, $time $postfix";
+        else
+            return "$date";
     }
 
     /**
@@ -70,7 +74,7 @@ class WooUtils
 
         foreach ($meta as $subKey => $subValue) {
             $fullKey = "$metaKey-$subKey";
-            update_post_meta($id, $fullKey, $subValue);
+            update_post_meta((int)$id, (string)$fullKey, $subValue);
         }
     }
 
