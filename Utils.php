@@ -1,7 +1,5 @@
 <?php namespace Utils;
 
-require "vendor/autoload.php";
-
 class Utils
 {
 
@@ -16,6 +14,16 @@ class Utils
         return array_values(array_map(function ($item) use ($key) {
             return self::get($item, $key);
         }, $array));
+    }
+
+    static function array_filter($array, $function)
+    {
+        $result = [];
+        foreach ($array as $key => $value) {
+            if ($function($key, $value))
+                $result[$key] = $value;
+        }
+        return $result;
     }
 
     static function get($item, $key)

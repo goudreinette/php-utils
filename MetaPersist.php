@@ -11,11 +11,7 @@ trait MetaPersist
      */
     function __construct($id)
     {
-        $this->id = $id;
-        $meta     = get_post_meta($this->id, self::$key, true) ?: $this->defaults();
-        foreach ((array)$this as $key => $undefined) {
-            $this->$key = $meta[$key] ?: $this->$key;
-        }
+        return unserialize(get_post_meta($this->id, self::$key, true));
     }
 
     /**
@@ -23,7 +19,6 @@ trait MetaPersist
      */
     function __destruct()
     {
-        $meta = (array)$this;
-        update_post_meta($this->id, self::$key, $meta);
+        update_post_meta($this->id, self::$key, serialize($this));
     }
 }
