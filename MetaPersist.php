@@ -1,24 +1,61 @@
 <?php namespace Utils;
 
 /**
- * Persist an object as wordpress meta.
+ * Persist an object as Wordpress meta.
  */
 trait MetaPersist
 {
     /**
-     * Get the object's post meta.
-     * When the declared key isn't found, use the default.
+     * The post id of the parent object.
+     * @var int
      */
-    function __construct($id)
+    public $id;
+
+    /**
+     * The meta key to use for persistence.
+     * @var string
+     */
+    static $key;
+
+    /**
+     * The function used to provide default values.
+     * @return void
+     */
+    abstract function assignDefaults();
+
+    /**
+     * Restore the object using it's post's id.
+     * @param $id string | null
+     */
+    function restore($id)
     {
-        return unserialize(get_post_meta($this->id, self::$key, true));
+        $meta = get_post_meta($id, self::$key, true);
+
+        if ($id && $meta)
+            foreach ($this->filterDeclared($meta) as $key => $value)
+                $this->$key = $value;
+        else
+            $this->assignDefaults();
     }
 
     /**
-     * Save the object's properties as post meta.
+     * Persist the object using it's post's id.
+     * @return bool|int
      */
-    function __destruct()
+    function persist()
     {
-        update_post_meta($this->id, self::$key, serialize($this));
+        $asArray  = (array)$this;
+        $declared = $this->filterDeclared($asArray);
+        return update_post_meta($this->id, self::$key, $declared);
+    }
+
+    /**
+     * Keep only the declared properties, to ensure integrity
+     * @param $properties array
+     * @return array
+     */
+    function filterDeclared($properties)
+    {
+        return array_intersect(get_class_vars(self::class), $properties);
     }
 }
