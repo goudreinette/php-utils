@@ -13,6 +13,7 @@ class PluginContext
     public $path;
 
     /**
+     * Used for textdomain.
      * @var string
      */
     public $base;
